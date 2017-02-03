@@ -18,6 +18,9 @@ app.use(bodyParser.json());
 //const sendTo = "lironavon42@gmail.com";
 //const subject = "My website contact ✔";
 
+app.get('/', function (req,res) {  
+    res.send ('ready for your mail');
+})
 
 app.post('/mailto/:targetMail', function (req, res) {
 
