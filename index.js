@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 app.get('/', function (req,res) {  
     res.send ('ready for your mail');
-})
+});
 
 app.post('/mailto/:targetMail', function (req, res) {
 
