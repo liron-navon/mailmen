@@ -1,5 +1,8 @@
 const nodemailer = require('nodemailer');
 
+// i dont realy care too much for the safety of this random password,
+// and yet - please dont do wierd shit with it.
+//create your own mail and use your password please.
 const user = 'github.lironavon@gmail.com';
 const password = 'GDtavd836';
 

@@ -55,11 +55,9 @@ app.post('/mailto/:targetMail', function (req, res) {
             return console.log(error);
         }
 
-
         if(callback){
           res.redirect(callback);
         }
-
 
         res.json({ response: info.response, id: info.messageId });
         console.log(`Message ${info.messageId} sent: ${info.response}`);
