@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <title>Contact Form</title>
+    <meta name="description" content="a form to send email">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<style>
+    form{
+        max-width: 200px;
+        text-align: center;
+        margin: auto;
+    }
+    button{
+        width: 90%;
+        padding: 5px 30px;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #FFF;
+     	text-decoration: none;	
+        background-color: #82BF56;
+     	border-bottom: 5px solid #669644;
+	    text-shadow: 0px -2px #669644;
+    }
+    </style>
+
+
+    
+
+<body>
+
+
+
+
+
+    <form method="POST" action="http://localhost:3000/mailto/mymail">
+        <fieldset>
+            <legend>Contact us</legend>
+            <label for="name">name</label></br>
+            <input type="text" name="name" id="name" required> </br>
+            <label for="mail">mail</label></br>
+            <input type="email" name="mail" id="mail" required></br>
+            <label for="phone">phone</label></br>
+            <input type="tel" name="phone" id="phone" required></br>
+            <label for="subject">subject</label></br>
+            <input type="text" name="subject" id="subject" required></br>
+            <label for="message">message</label></br>
+            <textarea type="text" name="message" id="message" rows="5"></textarea></br>
+            <button type="submit">submit</button>
+        </fieldset>
+    </form>
+</body>
+
+</html>

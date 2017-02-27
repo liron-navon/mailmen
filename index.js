@@ -7,25 +7,29 @@ const transporter = require('./transporter.js');
 const app = express();
 const port = process.env.PORT || 3000;
 const sender = transporter.sender;
-// parse application/x-www-form-urlencoded 
+// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json 
+// parse application/json
 app.use(bodyParser.json());
 
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
 //const sendTo = "lironavon42@gmail.com";
 //const subject = "My website contact ✔";
 
-app.get('/', function (req,res) {  
-    res.send ('ready for your mail');
+app.get('/', function (req, res) {
+    res.send('ready for your mail');
 });
 
 app.post('/mailto/:targetMail', function (req, res) {
 
     var target = req.params.targetMail;
-
+    var callback = req.body.callback;
     var subject = req.body.subject;
     var name = req.body.name;
     var mail = req.body.mail;
@@ -35,9 +39,9 @@ app.post('/mailto/:targetMail', function (req, res) {
     var mailText = writeMail(name, mail, phone, message);
     var mailHtml = writeMailHtml(name, mail, phone, message);
 
-    // setup email data with unicode symbols   ///  //
+    // setup email data with unicode symbols
     let mailOptions = {
-        from: `"${name} 👻" <${transporter.address}>`, // sender address
+        from: `"${name}" <${transporter.address}>`, // sender address
         to: target, // list of receivers
         subject: `${subject}`, // Subject line
         text: mailText, // plain text body
@@ -47,11 +51,18 @@ app.post('/mailto/:targetMail', function (req, res) {
     // send mail with defined transport object
     sender.sendMail(mailOptions, function (error, info) {
         if (error) {
-                res.send('error : '+error);
+            res.json(JSON.stringify(error));
             return console.log(error);
         }
-        res.send('thanks for the mail' + JSON.stringify(req.body));
-        console.log('Message %s sent: %s', info.messageId, info.response);
+
+
+        if(callback){
+          res.redirect(callback);
+        }
+
+
+        res.json({ response: info.response, id: info.messageId });
+        console.log(`Message ${info.messageId} sent: ${info.response}`);
     });
 
 
@@ -71,7 +82,7 @@ function writeMail(name, mail, phone, message) {
 
 function writeMailHtml(name, mail, phone, message) {
 
-    var msg =`<b>${name}</b> <br/><br/>
+    var msg = `<b>${name}</b> <br/>
      <b>mail</b> : ${mail}  <br/>
      <b>phone</b> : ${phone} <br/>
      <p>${message}</p>`;
@@ -81,19 +92,5 @@ function writeMailHtml(name, mail, phone, message) {
 
 
 app.listen(port, function () {
-
-    console.log('listenning to port ' + port);
-
+    console.log(`listenning to port : ${port}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
